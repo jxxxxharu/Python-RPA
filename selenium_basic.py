@@ -46,25 +46,19 @@ while True:
     before_h = after_h
     
     
-"""파일 생성"""
-f = open(r'C:\Users\yang9\Python-RPA\data.csv', 'w', encoding='cp949', newline='')
-csvWriter = csv.writer(f)
-    
-    
-"""상품정보 div"""
+"""상품정보 div & csv 파일 저장"""
 items = browser.find_elements(By.CSS_SELECTOR, '.basicList_info_area__17Xyo')
 
-for item in items:
-    name = item.find_element(By.CSS_SELECTOR, '.basicList_title__3P9Q7').text
-    try:
-        price = item.find_element(By.CSS_SELECTOR, '.price_num__2WUXn').text
-    except:
-        price = '판매중단'
-    link = item.find_element(By.CSS_SELECTOR, '.basicList_title__3P9Q7 > a').get_attribute('href')
+with open(r'C:\Users\yang9\Python-RPA\data.csv', 'w', encoding='cp949', newline='') as f:
+    csvWriter = csv.writer(f)
     
-    print(name, price, link)
-    csvWriter.writerow([name, price, link])  # 파일에 데이터 쓰기
-    
-
-"""파일 닫기"""
-f.close()
+    for item in items:
+        name = item.find_element(By.CSS_SELECTOR, '.basicList_title__3P9Q7').text
+        try:
+            price = item.find_element(By.CSS_SELECTOR, '.price_num__2WUXn').text
+        except:
+            price = '판매중단'
+        link = item.find_element(By.CSS_SELECTOR, '.basicList_title__3P9Q7 > a').get_attribute('href')
+        
+        print(name, price, link)
+        csvWriter.writerow([name, price, link])  # 파일에 데이터 쓰기
