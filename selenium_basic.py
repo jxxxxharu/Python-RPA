@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
+import csv
 
 
 """브라우저 생성"""
@@ -45,6 +46,11 @@ while True:
     before_h = after_h
     
     
+"""파일 생성"""
+f = open(r'C:\Users\yang9\Python-RPA\data.csv', 'w', encoding='cp949', newline='')
+csvWriter = csv.writer(f)
+    
+    
 """상품정보 div"""
 items = browser.find_elements(By.CSS_SELECTOR, '.basicList_info_area__17Xyo')
 
@@ -57,3 +63,8 @@ for item in items:
     link = item.find_element(By.CSS_SELECTOR, '.basicList_title__3P9Q7 > a').get_attribute('href')
     
     print(name, price, link)
+    csvWriter.writerow([name, price, link])  # 파일에 데이터 쓰기
+    
+
+"""파일 닫기"""
+f.close()
